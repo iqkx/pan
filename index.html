@@ -4,21 +4,28 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>域名更新通知</title>
-    <script src="static/js/js.js"></script>
-    <link href="static/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     colors: {
-                        primary: '#165DFF',
-                        secondary: '#36BFFA',
-                        neutral: '#6B7280',
-                        dark: '#1F2937',
+                        primary: '#2563eb',
+                        secondary: '#3b82f6',
+                        accent: '#60a5fa',
+                        neutral: '#64748b',
+                        dark: '#0f172a',
+                        success: '#10b981',
+                        danger: '#ef4444',
                     },
                     fontFamily: {
                         inter: ['Inter', 'system-ui', 'sans-serif'],
                     },
+                    boxShadow: {
+                        'card': '0 10px 25px -5px rgba(37, 99, 235, 0.1), 0 8px 10px -6px rgba(37, 99, 235, 0.05)',
+                        'card-hover': '0 20px 25px -5px rgba(37, 99, 235, 0.15), 0 8px 10px -6px rgba(37, 99, 235, 0.1)',
+                    }
                 }
             }
         }
@@ -29,98 +36,153 @@
                 content-visibility: auto;
             }
             .text-shadow {
-                text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+                text-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
             }
             .bg-gradient-primary {
-                background: linear-gradient(135deg, #165DFF 0%, #36BFFA 100%);
+                background: linear-gradient(135deg, #2563eb 0%, #3b82f6 50%, #60a5fa 100%);
             }
-            .transition-transform-opacity {
-                transition-property: transform, opacity;
-                transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-                transition-duration: 500ms;
+            .bg-glass {
+                background: rgba(255, 255, 255, 0.8);
+                backdrop-filter: blur(10px);
+            }
+            .scale-hover {
+                transition: transform 0.3s ease, box-shadow 0.3s ease;
+            }
+            .scale-hover:hover {
+                transform: translateY(-4px) scale(1.01);
             }
         }
     </style>
 </head>
-<body class="font-inter bg-gray-50 min-h-screen flex flex-col">
-    <!-- 顶部通知条 -->
-    <div class="bg-primary text-white text-center py-3 px-4 shadow-md">
-        <p class="text-sm md:text-base"><i class="fa fa-exclamation-circle mr-2"></i>重要通知：本网站域名已更新，请尽快更新书签</p>
+<body class="font-inter bg-gradient-to-br from-blue-50 to-indigo-50 min-h-screen flex flex-col">
+    <!-- 装饰背景元素 -->
+    <div class="fixed top-0 left-0 w-full h-full overflow-hidden -z-10">
+        <div class="absolute top-0 right-0 w-96 h-96 bg-primary/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
+        <div class="absolute bottom-0 left-0 w-96 h-96 bg-secondary/5 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2"></div>
+    </div>
+
+    <!-- 顶部通知条 - 带动效 -->
+    <div class="bg-glass text-primary border-b border-primary/10 text-center py-3 px-4 shadow-sm animate-fadeIn">
+        <p class="text-sm md:text-base flex items-center justify-center gap-2">
+            <i class="fa fa-bell animate-pulse"></i>
+            <span class="font-medium">重要通知：本网站域名已更新，请尽快更新书签</span>
+        </p>
     </div>
 
     <!-- 主内容区 -->
     <main class="flex-grow flex items-center justify-center px-4 py-12 md:py-20">
-        <div class="max-w-4xl w-full bg-white rounded-2xl shadow-xl overflow-hidden transform transition-all duration-500 hover:shadow-2xl">
+        <div class="max-w-2xl w-full bg-white rounded-3xl shadow-card hover:shadow-card-hover overflow-hidden scale-hover">
             <!-- 顶部渐变条 -->
-            <div class="bg-gradient-primary h-2"></div>
+            <div class="bg-gradient-primary h-3"></div>
             
             <div class="p-6 md:p-10">
-                <!-- 图标和标题 -->
-                <div class="text-center mb-8">
-                    <div class="inline-flex items-center justify-center w-20 h-20 rounded-full bg-blue-100 mb-4">
-                        <i class="fa fa-external-link text-primary text-4xl"></i>
+                <!-- 图标和标题 - 更有层次感 -->
+                <div class="text-center mb-10">
+                    <div class="inline-flex items-center justify-center w-24 h-24 rounded-full bg-blue-50 mb-6 relative">
+                        <div class="absolute inset-0 bg-gradient-primary rounded-full opacity-10 animate-pulse"></div>
+                        <i class="fa fa-link text-primary text-5xl relative z-10"></i>
                     </div>
-                    <h1 class="text-[clamp(1.8rem,5vw,2.5rem)] font-bold text-dark mb-3 text-shadow">域名已更新</h1>
-                    <p class="text-neutral text-lg md:text-xl max-w-2xl mx-auto">我们已更换至新的官方域名，为您提供更好的服务体验</p>
+                    <h1 class="text-[clamp(2rem,6vw,3rem)] font-bold text-dark mb-4 text-shadow tracking-tight">域名已更新</h1>
+                    <p class="text-neutral text-lg md:text-xl max-w-2xl mx-auto leading-relaxed">
+                        我们已更换至全新的官方域名，为您提供更稳定、更优质的服务体验
+                    </p>
                 </div>
                 
-                <!-- 域名信息 -->
-                <div class="bg-gray-50 rounded-xl p-6 mb-8 transform transition-all duration-300 hover:shadow-md">
-                    <div class="flex flex-col md:flex-row items-center justify-between mb-6">
-                        <div class="mb-4 md:mb-0 w-full md:w-auto">
-                            <p class="text-neutral text-sm mb-1">旧域名 (已停用)</p>
-                            <div class="flex items-center">
-                                <span class="text-red-500 mr-2"><i class="fa fa-times-circle"></i></span>
-                                <span class="font-mono bg-gray-100 px-4 py-2 rounded-lg text-gray-600 text-sm md:text-base line-through">https://pan.iqkx.cn</span>
+                <!-- 域名信息 - 优化布局和视觉 -->
+                <div class="bg-gray-50 rounded-2xl p-8 mb-10 shadow-sm hover:shadow-md transition-all duration-300">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                        <!-- 旧域名 -->
+                        <div class="bg-white p-5 rounded-xl border border-red-100">
+                            <div class="flex items-center mb-2">
+                                <span class="text-danger text-sm font-medium mr-2">
+                                    <i class="fa fa-times-circle"></i> 已停用
+                                </span>
+                            </div>
+                            <p class="text-neutral text-sm mb-2">旧域名</p>
+                            <div class="font-mono bg-red-50 px-4 py-3 rounded-lg text-gray-500 text-sm md:text-base line-through">
+                                https://pan.iqkx.cn
                             </div>
                         </div>
                         
-                        <div class="w-full md:w-auto">
-                            <p class="text-neutral text-sm mb-1">新域名 (推荐使用)</p>
-                            <div class="flex items-center">
-                                <span class="text-green-500 mr-2"><i class="fa fa-check-circle"></i></span>
-                                <span class="font-mono bg-blue-50 px-4 py-2 rounded-lg text-primary font-medium text-sm md:text-base">https://pan.puaaa.cn</span>
+                        <!-- 新域名 -->
+                        <div class="bg-white p-5 rounded-xl border border-green-100">
+                            <div class="flex items-center mb-2">
+                                <span class="text-success text-sm font-medium mr-2">
+                                    <i class="fa fa-check-circle"></i> 推荐使用
+                                </span>
+                            </div>
+                            <p class="text-neutral text-sm mb-2">新域名</p>
+                            <div class="font-mono bg-green-50 px-4 py-3 rounded-lg text-primary font-medium text-sm md:text-base">
+                                https://pan.puaaa.cn
                             </div>
                         </div>
                     </div>
                     
-                    <!-- 倒计时 -->
-                    <div class="border-t border-gray-200 pt-6">
-                        <p class="text-neutral text-center mb-3">页面将在 <span id="countdown" class="font-bold text-primary">10</span> 秒后自动跳转</p>
-                        <div class="w-full bg-gray-200 rounded-full h-2.5">
-                            <div id="progress-bar" class="bg-primary h-2.5 rounded-full" style="width: 100%"></div>
+                    <!-- 倒计时 - 优化进度条样式 -->
+                    <div class="border-t border-gray-100 pt-6">
+                        <p class="text-neutral text-center mb-4">
+                            页面将在 <span id="countdown" class="font-bold text-primary text-xl">10</span> 秒后自动跳转
+                        </p>
+                        <div class="w-full bg-gray-100 rounded-full h-3 overflow-hidden">
+                            <div id="progress-bar" class="bg-gradient-primary h-full rounded-full transition-all duration-1000 ease-linear" style="width: 100%"></div>
                         </div>
                     </div>
                 </div>
                 
-                <!-- 操作按钮 -->
-                <div class="flex flex-col sm:flex-row gap-4 justify-center mb-8">
-                    <a href="https://pan.puaaa.cn" class="bg-primary hover:bg-primary/90 text-white font-medium py-3 px-8 rounded-lg transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1 flex items-center justify-center">
-                        <i class="fa fa-arrow-right mr-2"></i>立即跳转至新域名
+                <!-- 操作按钮 - 优化样式和交互 -->
+                <div class="flex flex-col sm:flex-row gap-4 justify-center mb-10">
+                    <a href="https://pan.puaaa.cn" class="bg-gradient-primary text-white font-medium py-4 px-10 rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1 flex items-center justify-center gap-2 text-lg">
+                        <i class="fa fa-arrow-right"></i>
+                        <span>立即跳转至新域名</span>
                     </a>
-                    <a href="https://pan.puaaa.cn" class="bg-white hover:bg-gray-50 text-primary border border-primary font-medium py-3 px-8 rounded-lg transition-all duration-300 shadow hover:shadow-md flex items-center justify-center">
-                        <i class="fa fa-copy mr-2"></i>复制新域名
-                    </a>
+                    <button id="copyBtn" class="bg-white hover:bg-gray-50 text-primary border border-primary/20 font-medium py-4 px-10 rounded-xl transition-all duration-300 shadow hover:shadow-md flex items-center justify-center gap-2 text-lg">
+                        <i class="fa fa-copy"></i>
+                        <span>复制新域名</span>
+                    </button>
                 </div>
                 
-                <!-- 说明信息 -->
-                <div class="text-center text-neutral text-sm">
-                    <p class="mb-2">如有任何疑问，请联系我们！</p>
-                    <p><i class="fa fa-heart-o"></i> 微信：nbioss  </p>
+                <!-- 说明信息 - 优化排版 -->
+                <div class="text-center text-neutral text-sm pt-4 border-t border-gray-100">
+                    <p class="mb-3 flex items-center justify-center gap-2">
+                        <i class="fa fa-info-circle text-primary"></i>
+                        <span>如有任何疑问，请联系我们！</span>
+                    </p>
+                    <p class="text-primary font-medium flex items-center justify-center gap-2">
+                        <i class="fa fa-weixin text-2xl"></i>
+                        <span>微信：nbioss</span>
+                    </p>
                 </div>
             </div>
         </div>
     </main>
 
-
+    <!-- 底部版权信息 -->
+    <footer class="py-6 text-center text-neutral/70 text-sm">
+        <p>© 2025 版权所有 | 感谢您的理解与支持</p>
+    </footer>
 
     <script>
-        // 倒计时和进度条逻辑
+        // 页面加载动画
         document.addEventListener('DOMContentLoaded', function() {
+            // 淡入动画
+            document.querySelectorAll('body > *').forEach((el, index) => {
+                el.style.opacity = '0';
+                el.style.transform = 'translateY(20px)';
+                
+                setTimeout(() => {
+                    el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+                    el.style.opacity = '1';
+                    el.style.transform = 'translateY(0)';
+                }, 100 + (index * 200));
+            });
+
+            // 倒计时和进度条逻辑
             const countdownEl = document.getElementById('countdown');
             const progressBar = document.getElementById('progress-bar');
+            const copyBtn = document.getElementById('copyBtn');
             const newDomain = 'https://pan.puaaa.cn';
             let countdown = 10;
+            
             const interval = setInterval(function() {
                 countdown--;
                 countdownEl.textContent = countdown;
@@ -132,40 +194,37 @@
                 }
             }, 1000);
             
-            // 复制新域名功能
-            document.querySelector('a:nth-of-type(2)').addEventListener('click', function(e) {
-                e.preventDefault();
+            // 复制新域名功能 - 优化交互反馈
+            copyBtn.addEventListener('click', function() {
                 navigator.clipboard.writeText(newDomain)
                     .then(() => {
-                        const originalText = this.innerHTML;
-                        this.innerHTML = '<i class="fa fa-check mr-2"></i>已复制!';
-                        this.classList.add('bg-green-50', 'text-green-600', 'border-green-600');
-                        this.classList.remove('bg-white', 'hover:bg-gray-50', 'text-primary', 'border-primary');
+                        // 保存原始状态
+                        const originalIcon = this.querySelector('i').className;
+                        const originalText = this.querySelector('span').textContent;
+                        const originalClasses = this.className;
                         
+                        // 更新按钮状态
+                        this.className = 'bg-green-50 text-success border border-success/20 font-medium py-4 px-10 rounded-xl transition-all duration-300 flex items-center justify-center gap-2 text-lg';
+                        this.querySelector('i').className = 'fa fa-check';
+                        this.querySelector('span').textContent = '已复制！';
+                        
+                        // 添加成功动画
+                        this.classList.add('animate-pulse');
+                        
+                        // 恢复原始状态
                         setTimeout(() => {
-                            this.innerHTML = originalText;
-                            this.classList.remove('bg-green-50', 'text-green-600', 'border-green-600');
-                            this.classList.add('bg-white', 'hover:bg-gray-50', 'text-primary', 'border-primary');
+                            this.className = originalClasses;
+                            this.querySelector('i').className = originalIcon;
+                            this.querySelector('span').textContent = originalText;
+                            this.classList.remove('animate-pulse');
                         }, 2000);
                     })
                     .catch(err => {
                         console.error('复制失败: ', err);
+                        alert('复制失败，请手动复制域名：' + newDomain);
                     });
-            });
-            
-            // 添加页面元素的淡入动画
-            const fadeElements = document.querySelectorAll('main > div, footer');
-            fadeElements.forEach((el, index) => {
-                el.style.opacity = '0';
-                el.style.transform = 'translateY(20px)';
-                
-                setTimeout(() => {
-                    el.style.opacity = '1';
-                    el.style.transform = 'translateY(0)';
-                }, 100 + (index * 100));
             });
         });
     </script>
 </body>
 </html>
-    
